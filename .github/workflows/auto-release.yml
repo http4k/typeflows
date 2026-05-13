@@ -1,0 +1,102 @@
+name: Auto Release
+on:
+  schedule:
+  - cron: 0 12 * * *
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  auto-release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5.0.0
+      with:
+        token: ${{ secrets.TOOLBOX_REPO_TOKEN }}
+        fetch-depth: 0
+
+    - name: Set up JDK
+      uses: actions/setup-java@v5.0.0
+      with:
+        java-version: '21'
+        distribution: temurin
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v5.0.0
+
+    - name: Update library versions
+      run: ./gradlew versionCatalogUpdate
+      shell: bash
+
+    - name: Update Gradle wrapper
+      # Run twice: the first pass updates gradle-wrapper.properties,
+      # the second pass regenerates gradle-wrapper.jar + gradlew scripts
+      # using the new version.
+      run: |
+        ./gradlew wrapper --gradle-version=latest --distribution-type=bin
+        ./gradlew wrapper --gradle-version=latest --distribution-type=bin
+      shell: bash
+
+    - name: Check for changes
+      id: changes
+      run: |
+        if git diff --quiet; then
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+        else
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+        fi
+      shell: bash
+
+    - name: Verify build still passes
+      if: steps.changes.outputs.has_changes == 'true'
+      run: ./gradlew check
+      shell: bash
+
+    - name: Compute next version
+      if: steps.changes.outputs.has_changes == 'true'
+      id: version
+      run: |
+        CURRENT=$(jq -r '.http4k.version' version.json)
+        IFS='.' read -r MAJOR MINOR _ _ <<< "$CURRENT"
+        NEW="$MAJOR.$((MINOR + 1)).0.0"
+        echo "Bumping $CURRENT -> $NEW"
+        echo "current=$CURRENT" >> $GITHUB_OUTPUT
+        echo "new=$NEW" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - name: Rewrite version references
+      if: steps.changes.outputs.has_changes == 'true'
+      env:
+        CURRENT: ${{ steps.version.outputs.current }}
+        NEW: ${{ steps.version.outputs.new }}
+      run: |
+        find . -name "*.md" -not -name "CHANGELOG*" -print0 \
+          | xargs -0 perl -i -pe 's/\Q$ENV{CURRENT}\E/$ENV{NEW}/g'
+        perl -i -pe 's/\Q$ENV{CURRENT}\E/$ENV{NEW}/g' version.json
+      shell: bash
+
+    - name: Prepend CHANGELOG entry
+      if: steps.changes.outputs.has_changes == 'true'
+      env:
+        NEW: ${{ steps.version.outputs.new }}
+      # upload-release.yml extracts the section matching the version for the
+      # GitHub release notes, so the new entry has to land in CHANGELOG.md
+      # before the commit. Inserts directly above the previous top entry.
+      run: |
+        perl -i -pe 'BEGIN { $inserted = 0 }
+          if (!$inserted && /^### /) {
+            print "### $ENV{NEW}\n- Upgrade underlying libraries (Gradle etc)\n\n";
+            $inserted = 1;
+          }' CHANGELOG.md
+      shell: bash
+
+    - name: Commit and push release
+      if: steps.changes.outputs.has_changes == 'true'
+      env:
+        NEW: ${{ steps.version.outputs.new }}
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git commit -am "Release $NEW"
+        git push origin HEAD:main
+      shell: bash
