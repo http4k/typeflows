@@ -84,12 +84,11 @@ class UpdateGradleProjectDependencies(
                 id = "changes"
             }
 
-            steps += UseAction("peter-evans/create-pull-request@v6") {
+            steps += UseAction("peter-evans/create-pull-request@v8.1.1") {
                 name = "Create Pull Request"
                 condition = StrExp.of("steps.changes.outputs.has_changes")
 
                 with += mapOf(
-                    "token" to Secrets.GITHUB_TOKEN.toString(),
                     "commit-message" to "chore: Update dependencies",
                     "title" to "chore: update dependencies",
                     "body" to """
