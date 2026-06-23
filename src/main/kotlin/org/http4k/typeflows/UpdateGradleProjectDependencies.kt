@@ -66,7 +66,7 @@ class UpdateGradleProjectDependencies(
 
             steps += SetupGradle()
 
-            steps += RunCommand("./gradlew versionCatalogUpdate") {
+            steps += RunCommand("./gradlew versionCatalogUpdate typeflowsExport") {
                 name = "Build"
             }
             steps += buildCommand
