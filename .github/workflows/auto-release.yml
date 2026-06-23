@@ -37,6 +37,18 @@ jobs:
         ./gradlew wrapper --gradle-version=latest --distribution-type=bin
       shell: bash
 
+    - name: Sync wrapper into project standards resources
+      # The Http4kProjectStandards resources bundle a copy of the Gradle
+      # wrapper that is templated into generated projects. Copy the freshly
+      # updated wrapper across so the release PR carries the new files too.
+      run: |
+        STANDARDS=src/main/resources/org/http4k/typeflows/Http4kProjectStandards
+        cp gradlew "$STANDARDS/gradlew"
+        cp gradlew.bat "$STANDARDS/gradlew.bat"
+        cp gradle/wrapper/gradle-wrapper.jar "$STANDARDS/gradle/wrapper/gradle-wrapper.jar"
+        cp gradle/wrapper/gradle-wrapper.properties "$STANDARDS/gradle/wrapper/gradle-wrapper.properties"
+      shell: bash
+
     - name: Check for changes
       id: changes
       run: |
