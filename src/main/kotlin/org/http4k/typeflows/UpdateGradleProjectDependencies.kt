@@ -55,9 +55,13 @@ class UpdateGradleProjectDependencies(
                 PullRequests to Write
             )
 
+            // A token with the `workflow` scope is required so the created PR can
+            // include the regenerated `.github/workflows` files produced by typeflowsExport.
+            val token = Secrets.string("TOOLBOX_REPO_TOKEN")
+
             steps += Checkout {
                 name = "Checkout repository"
-                token = Secrets.GITHUB_TOKEN.toString()
+                this.token = token.toString()
             }
 
             steps += SetupJava(JDK, JAVA_VERSION) {
@@ -89,6 +93,7 @@ class UpdateGradleProjectDependencies(
                 condition = StrExp.of("steps.changes.outputs.has_changes")
 
                 with += mapOf(
+                    "token" to token.toString(),
                     "commit-message" to "chore: Update dependencies",
                     "title" to "chore: update dependencies",
                     "body" to """
