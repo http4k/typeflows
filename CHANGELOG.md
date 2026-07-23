@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.20.0.0
+- Adjust workflow permissions for workflows
+
 ### 1.19.0.0
 - Pin versions of github action constants (shas etc)
 

@@ -2,9 +2,9 @@ package org.http4k.typeflows
 
 import io.typeflows.github.workflow.Cron
 import io.typeflows.github.workflow.Job
-import io.typeflows.github.workflow.Permission.Actions
 import io.typeflows.github.workflow.Permission.Contents
 import io.typeflows.github.workflow.Permission.PullRequests
+import io.typeflows.github.workflow.PermissionLevel.Read
 import io.typeflows.github.workflow.PermissionLevel.Write
 import io.typeflows.github.workflow.Permissions
 import io.typeflows.github.workflow.RunsOn.Companion.UBUNTU_LATEST
@@ -52,15 +52,14 @@ class UpdateGradleProjectDependencies(
         }
         on += WorkflowDispatch()
 
+        permissions = Permissions(Contents to Read)
+
         jobs += Job(workflowName, UBUNTU_LATEST) {
             permissions = Permissions(
-                Actions to Write,
                 Contents to Write,
                 PullRequests to Write
             )
 
-            // A token with the `workflow` scope is required so the created PR can
-            // include the regenerated `.github/workflows` files produced by typeflowsExport.
             val token = Secrets.string("TOOLBOX_REPO_TOKEN")
 
             steps += Checkout(CHECKOUT) {
