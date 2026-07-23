@@ -19,6 +19,9 @@ import io.typeflows.github.workflow.trigger.PullRequest
 import io.typeflows.github.workflow.trigger.Push
 import io.typeflows.github.workflow.trigger.WorkflowDispatch
 import io.typeflows.util.Builder
+import org.http4k.typeflows.GithubActionConstants.CHECKOUT
+import org.http4k.typeflows.GithubActionConstants.SETUP_GRADLE
+import org.http4k.typeflows.GithubActionConstants.SETUP_JAVA
 
 class Build : Builder<Workflow> {
     override fun build() = Workflow("build") {
@@ -38,11 +41,11 @@ class Build : Builder<Workflow> {
         jobs += Job("build", UBUNTU_LATEST) {
             name = "Build and Test"
 
-            steps += Checkout()
+            steps += Checkout(CHECKOUT)
 
-            steps += SetupJava(Adopt, V21)
+            steps += SetupJava(Adopt, V21, SETUP_JAVA)
 
-            steps += SetupGradle()
+            steps += SetupGradle(SETUP_GRADLE)
 
             steps += RunCommand("./gradlew check --info") {
                 name = "Build"

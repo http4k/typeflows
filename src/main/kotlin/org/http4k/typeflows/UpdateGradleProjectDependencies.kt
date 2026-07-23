@@ -20,8 +20,12 @@ import io.typeflows.github.workflow.step.marketplace.SetupJava
 import io.typeflows.github.workflow.trigger.Schedule
 import io.typeflows.github.workflow.trigger.WorkflowDispatch
 import io.typeflows.util.Builder
-import org.http4k.typeflows.Versions.JAVA_VERSION
-import org.http4k.typeflows.Versions.JDK
+import org.http4k.typeflows.GithubActionConstants.CHECKOUT
+import org.http4k.typeflows.GithubActionConstants.CREATE_PULL_REQUEST
+import org.http4k.typeflows.GithubActionConstants.JAVA_VERSION
+import org.http4k.typeflows.GithubActionConstants.JDK
+import org.http4k.typeflows.GithubActionConstants.SETUP_GRADLE
+import org.http4k.typeflows.GithubActionConstants.SETUP_JAVA
 
 /**
  * A reusable workflow to update dependencies in a repository.
@@ -59,16 +63,16 @@ class UpdateGradleProjectDependencies(
             // include the regenerated `.github/workflows` files produced by typeflowsExport.
             val token = Secrets.string("TOOLBOX_REPO_TOKEN")
 
-            steps += Checkout {
+            steps += Checkout(CHECKOUT) {
                 name = "Checkout repository"
                 this.token = token.toString()
             }
 
-            steps += SetupJava(JDK, JAVA_VERSION) {
+            steps += SetupJava(JDK, JAVA_VERSION, SETUP_JAVA) {
                 name = "Set up JDK"
             }
 
-            steps += SetupGradle()
+            steps += SetupGradle(SETUP_GRADLE)
 
             steps += RunCommand("./gradlew versionCatalogUpdate typeflowsExport") {
                 name = "Build"
@@ -88,7 +92,7 @@ class UpdateGradleProjectDependencies(
                 id = "changes"
             }
 
-            steps += UseAction("peter-evans/create-pull-request@v8.1.1") {
+            steps += UseAction(CREATE_PULL_REQUEST) {
                 name = "Create Pull Request"
                 condition = StrExp.of("steps.changes.outputs.has_changes")
 

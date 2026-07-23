@@ -4,70 +4,58 @@ on:
   - cron: 0 12 * * *
   workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
 jobs:
   auto-release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v5.0.0
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       with:
         token: ${{ secrets.TOOLBOX_REPO_TOKEN }}
         fetch-depth: 0
-
     - name: Set up JDK
-      uses: actions/setup-java@v5.0.0
+      uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95
       with:
         java-version: '21'
         distribution: temurin
-
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v5.0.0
-
+      uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92
     - name: Update library versions
       run: ./gradlew versionCatalogUpdate
       shell: bash
-
     - name: Update Gradle wrapper
-      # Run twice: the first pass updates gradle-wrapper.properties,
-      # the second pass regenerates gradle-wrapper.jar + gradlew scripts
-      # using the new version.
-      run: |
+      run: |-
         ./gradlew wrapper --gradle-version=latest --distribution-type=bin
         ./gradlew wrapper --gradle-version=latest --distribution-type=bin
       shell: bash
-
     - name: Sync wrapper into project standards resources
-      # The Http4kProjectStandards resources bundle a copy of the Gradle
-      # wrapper that is templated into generated projects. Copy the freshly
-      # updated wrapper across so the release PR carries the new files too.
-      run: |
+      run: |-
         STANDARDS=src/main/resources/org/http4k/typeflows/Http4kProjectStandards
         cp gradlew "$STANDARDS/gradlew"
         cp gradlew.bat "$STANDARDS/gradlew.bat"
         cp gradle/wrapper/gradle-wrapper.jar "$STANDARDS/gradle/wrapper/gradle-wrapper.jar"
         cp gradle/wrapper/gradle-wrapper.properties "$STANDARDS/gradle/wrapper/gradle-wrapper.properties"
       shell: bash
-
     - name: Check for changes
       id: changes
-      run: |
+      run: |-
         if git diff --quiet; then
           echo "has_changes=false" >> $GITHUB_OUTPUT
         else
           echo "has_changes=true" >> $GITHUB_OUTPUT
         fi
       shell: bash
-
     - name: Verify build still passes
       if: steps.changes.outputs.has_changes == 'true'
       run: ./gradlew check
       shell: bash
-
     - name: Compute next version
-      if: steps.changes.outputs.has_changes == 'true'
       id: version
-      run: |
+      if: steps.changes.outputs.has_changes == 'true'
+      run: |-
         CURRENT=$(jq -r '.http4k.version' version.json)
         IFS='.' read -r MAJOR MINOR _ _ <<< "$CURRENT"
         NEW="$MAJOR.$((MINOR + 1)).0.0"
@@ -75,40 +63,34 @@ jobs:
         echo "current=$CURRENT" >> $GITHUB_OUTPUT
         echo "new=$NEW" >> $GITHUB_OUTPUT
       shell: bash
-
     - name: Rewrite version references
       if: steps.changes.outputs.has_changes == 'true'
-      env:
-        CURRENT: ${{ steps.version.outputs.current }}
-        NEW: ${{ steps.version.outputs.new }}
-      run: |
+      run: |-
         find . -name "*.md" -not -name "CHANGELOG*" -print0 \
           | xargs -0 perl -i -pe 's/\Q$ENV{CURRENT}\E/$ENV{NEW}/g'
         perl -i -pe 's/\Q$ENV{CURRENT}\E/$ENV{NEW}/g' version.json
+      env:
+        CURRENT: ${{ steps.version.outputs.current }}
+        NEW: ${{ steps.version.outputs.new }}
       shell: bash
-
     - name: Prepend CHANGELOG entry
       if: steps.changes.outputs.has_changes == 'true'
-      env:
-        NEW: ${{ steps.version.outputs.new }}
-      # upload-release.yml extracts the section matching the version for the
-      # GitHub release notes, so the new entry has to land in CHANGELOG.md
-      # before the commit. Inserts directly above the previous top entry.
-      run: |
+      run: |-
         perl -i -pe 'BEGIN { $inserted = 0 }
           if (!$inserted && /^### /) {
             print "### $ENV{NEW}\n- Upgrade underlying libraries (Gradle etc)\n\n";
             $inserted = 1;
           }' CHANGELOG.md
-      shell: bash
-
-    - name: Commit and push release
-      if: steps.changes.outputs.has_changes == 'true'
       env:
         NEW: ${{ steps.version.outputs.new }}
-      run: |
+      shell: bash
+    - name: Commit and push release
+      if: steps.changes.outputs.has_changes == 'true'
+      run: |-
         git config user.name github-actions
         git config user.email github-actions@github.com
         git commit -am "Release $NEW"
         git push origin HEAD:main
+      env:
+        NEW: ${{ steps.version.outputs.new }}
       shell: bash

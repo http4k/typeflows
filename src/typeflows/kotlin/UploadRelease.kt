@@ -11,6 +11,10 @@ import io.typeflows.github.workflow.step.marketplace.SetupGradle
 import io.typeflows.github.workflow.step.marketplace.SetupJava
 import io.typeflows.github.workflow.trigger.RepositoryDispatch
 import io.typeflows.util.Builder
+import org.http4k.typeflows.GithubActionConstants.CHECKOUT
+import org.http4k.typeflows.GithubActionConstants.CREATE_RELEASE
+import org.http4k.typeflows.GithubActionConstants.SETUP_GRADLE
+import org.http4k.typeflows.GithubActionConstants.SETUP_JAVA
 
 class UploadRelease : Builder<Workflow> {
     override fun build() = Workflow("upload-release") {
@@ -20,13 +24,13 @@ class UploadRelease : Builder<Workflow> {
         jobs += Job("release", RunsOn.UBUNTU_LATEST) {
 
             name = "Release"
-            steps += Checkout {
+            steps += Checkout(CHECKOUT) {
                 with["ref"] = $$"${{ github.event.client_payload.tag }}"
             }
 
-            steps += SetupJava(Adopt, V21)
+            steps += SetupJava(Adopt, V21, SETUP_JAVA)
 
-            steps += SetupGradle()
+            steps += SetupGradle(SETUP_GRADLE)
 
             steps += RunScript("scripts/publish-artifacts.sh") {
                 name = "Publish"
@@ -44,7 +48,7 @@ class UploadRelease : Builder<Workflow> {
                 env["RELEASE_VERSION"] = $$"${{ github.event.client_payload.tag }}"
             }
 
-            steps += UseAction("actions/create-release@v1") {
+            steps += UseAction(CREATE_RELEASE) {
                 name = "Create Release"
                 env["GITHUB_TOKEN"] = Secrets.GITHUB_TOKEN
                 with["tag_name"] = $$"${{ github.event.client_payload.tag }}"

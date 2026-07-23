@@ -13,6 +13,7 @@ class Typeflows : Builder<TypeflowsRepo> {
         dotGithub = DotGitHub {
             workflows += Build()
             workflows += UploadRelease()
+            workflows += AutoRelease()
 
             workflows += UpdateGradleProjectDependencies(
                 "update-dependencies",
