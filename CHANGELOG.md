@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.18.0.0
+- Upgrade underlying libraries
+
 ### 1.17.0.0
 - Upgrade underlying libraries (Gradle etc)
 
