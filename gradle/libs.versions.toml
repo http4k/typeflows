@@ -2,7 +2,7 @@
 com-vanniktech-gradle-maven-publish-plugin = "0.37.0"
 kotlin = "2.4.10"
 typeflows = "0.34.0-beta"
-version-catalog-update = "1.1.0"
+version-catalog-update = "1.1.1"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
