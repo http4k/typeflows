@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.22.0.0
+- Upgrade underlying libraries (Gradle etc)
+
 ### 1.21.0.0
 - Upgrade underlying libraries (Gradle etc)
 
