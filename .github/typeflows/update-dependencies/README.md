@@ -7,7 +7,7 @@ flowchart TD
     workflowdispatch(["👤 workflow_dispatch"])
     subgraph updatedependenciesyml["Update Dependencies"]
         updatedependenciesyml_metadata[["🔧 Workflow Config<br/>🔐 custom permissions"]]
-        updatedependenciesyml_updatedependencies["update-dependencies<br/>🐧 ubuntu-latest"]
+        updatedependenciesyml_updatedependencies["update-dependencies<br/>🐧 ubuntu-latest<br/>🔑 Uses secrets"]
     end
     schedule --> updatedependenciesyml_updatedependencies
     workflowdispatch --> updatedependenciesyml_updatedependencies
@@ -17,7 +17,7 @@ flowchart TD
 
 | Job | OS | Dependencies | Config |
 |-----|----|--------------|---------| 
-| `update-dependencies` | 🐧 ubuntu-latest | - | 🔐 perms |
+| `update-dependencies` | 🐧 ubuntu-latest | - | 🌍 env 🔐 perms |
 
 ### Steps
 

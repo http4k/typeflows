@@ -3,6 +3,7 @@ package org.http4k.typeflows
 import io.typeflows.github.workflow.Cron
 import io.typeflows.github.workflow.Job
 import io.typeflows.github.workflow.Permission.Contents
+import io.typeflows.github.workflow.Permission.Packages
 import io.typeflows.github.workflow.Permission.PullRequests
 import io.typeflows.github.workflow.PermissionLevel.Read
 import io.typeflows.github.workflow.PermissionLevel.Write
@@ -57,8 +58,11 @@ class UpdateGradleProjectDependencies(
         jobs += Job(workflowName, UBUNTU_LATEST) {
             permissions = Permissions(
                 Contents to Write,
-                PullRequests to Write
+                PullRequests to Write,
+                Packages to Read
             )
+
+            env["GITHUB_TOKEN"] = Secrets.GITHUB_TOKEN
 
             val token = Secrets.string("TOOLBOX_REPO_TOKEN")
 

@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.25.1.0
+- Add read permission to the workflows
+
 ### 1.25.0.0
 - Upgrade libraries and build telemetry
 
