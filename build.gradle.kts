@@ -2,10 +2,12 @@ import com.vanniktech.maven.publish.MavenPublishBaseExtension
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.version.catalog.update)
     alias(libs.plugins.typeflows)
     alias(libs.plugins.vannitech)
     `java-library`
+    `java-gradle-plugin`
     signing
     `maven-publish`
 }
@@ -21,8 +23,8 @@ configure<MavenPublishBaseExtension> {
         if (enableSigning) {
             apply(plugin = "signing")
             signing {
-                val signingKey: String? by project
-                val signingPassword: String? by project
+                val signingKey = project.findProperty("signingKey")?.toString()
+                val signingPassword = project.findProperty("signingPassword")?.toString()
                 useInMemoryPgpKeys(signingKey, signingPassword)
                 sign(project.the<PublishingExtension>().publications)
             }
@@ -30,10 +32,23 @@ configure<MavenPublishBaseExtension> {
 
         publishToMavenCentral(automaticRelease = true)
 
+        System.getenv("GITHUB_TOKEN")?.also { token ->
+            repositories {
+                maven {
+                    name = "GitHubPackages"
+                    url = uri("https://maven.pkg.github.com/http4k/typeflows")
+                    credentials {
+                        username = System.getenv("GITHUB_ACTOR")
+                        password = token
+                    }
+                }
+            }
+        }
+
         coordinates(
             "org.http4k.standards",
             project.name,
-            project.properties["releaseVersion"]?.toString() ?: "LOCAL"
+            project.findProperty("releaseVersion")?.toString() ?: "LOCAL"
         )
 
         pom {
@@ -60,10 +75,36 @@ configure<MavenPublishBaseExtension> {
     }
 }
 
+gradlePlugin {
+    plugins {
+        create("buildTelemetry") {
+            id = "org.http4k.build"
+            implementationClass = "org.http4k.typeflows.BuildTelemetryPlugin"
+        }
+    }
+}
+
 dependencies {
     api(libs.typeflows.github)
     api(libs.typeflows.github.marketplace)
 
+    implementation(libs.kotshi.api)
+    ksp(libs.kotshi.compiler)
+
     typeflowsApi(project(":"))
+
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.hamkrest)
+    testImplementation(gradleTestKit())
+    testRuntimeOnly(libs.junit.platform.launcher)
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+// the sources jar exists only to satisfy Maven Central validation - it ships no source
+tasks.withType<Jar>().configureEach {
+    if ("ourcesJar" in name) exclude("**/*.kt", "**/*.java")
 }
 

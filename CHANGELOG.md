@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.25.0.0
+- Upgrade libraries and build telemetry
+
 ### 1.24.0.0
 - Upgrade underlying libraries (Gradle etc)
 

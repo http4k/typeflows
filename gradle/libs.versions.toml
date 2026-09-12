@@ -1,15 +1,26 @@
 [versions]
 com-vanniktech-gradle-maven-publish-plugin = "0.37.0"
-kotlin = "2.4.20"
+hamkrest = "1.8.0.1"
+junit = "6.1.3"
+# @pin
+kotlin = "2.4.0"
+kotshi = "4.0.0"
+ksp = "2.3.12"
 typeflows = "0.34.0-beta"
 version-catalog-update = "1.1.1"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 typeflows = { id = "io.typeflows", version.ref = "typeflows" }
 vannitech = { id = "com.vanniktech.maven.publish", version.ref = "com-vanniktech-gradle-maven-publish-plugin" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
 
 [libraries]
+hamkrest = { module = "com.natpryce:hamkrest", version.ref = "hamkrest" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+kotshi-api = { module = "se.ansman.kotshi:api", version.ref = "kotshi" }
+kotshi-compiler = { module = "se.ansman.kotshi:compiler", version.ref = "kotshi" }
 typeflows-github = { module = "io.typeflows:typeflows-github", version.ref = "typeflows" }
 typeflows-github-marketplace = { module = "io.typeflows:typeflows-github-marketplace", version.ref = "typeflows" }
