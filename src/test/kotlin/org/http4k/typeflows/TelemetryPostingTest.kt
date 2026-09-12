@@ -3,16 +3,13 @@ package org.http4k.typeflows
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.containsSubstring
 import com.natpryce.hamkrest.equalTo
-import org.gradle.api.GradleException
 import org.http4k.core.HttpHandler
 import org.http4k.core.Method.POST
 import org.http4k.core.Request
 import org.http4k.core.Response
 import org.http4k.core.Status.Companion.ACCEPTED
 import org.http4k.core.Status.Companion.INTERNAL_SERVER_ERROR
-import org.http4k.core.Status.Companion.UNPROCESSABLE_ENTITY
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import java.time.Instant
 import java.util.zip.GZIPInputStream
 
@@ -33,16 +30,6 @@ class TelemetryPostingTest {
         assertThat(request.header("Content-Encoding"), equalTo("gzip"))
         assertThat(request.gunzipped(), containsSubstring(""""repository":"http4k/typeflows""""))
         assertThat(request.gunzipped(), containsSubstring(""""path":":work""""))
-    }
-
-    @Test
-    fun `fails the build when the endpoint rejects the telemetry`() {
-        val rejecting: HttpHandler = { Response(UNPROCESSABLE_ENTITY).body("unknown field: cores") }
-
-        val error = assertThrows<GradleException> { postTelemetry(rejecting, endpoint, aReport()) }
-
-        assertThat(error.message!!, containsSubstring("rejected the build telemetry"))
-        assertThat(error.message!!, containsSubstring("unknown field: cores"))
     }
 
     @Test

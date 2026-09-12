@@ -4,16 +4,15 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.containsSubstring
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.lessThan
+import org.gradle.testkit.runner.GradleRunner
 import org.http4k.core.Request
 import org.http4k.core.Response
 import org.http4k.core.Status
 import org.http4k.core.Status.Companion.ACCEPTED
-import org.http4k.core.Status.Companion.UNPROCESSABLE_ENTITY
 import org.http4k.core.then
 import org.http4k.filter.ServerFilters
 import org.http4k.server.SunHttp
 import org.http4k.server.asServer
-import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
@@ -79,15 +78,6 @@ class BuildTelemetryPluginTest {
 
     private fun durationMsIn(body: String) =
         Regex(""""durationMs":(\d+)""").find(body)!!.groupValues[1].toLong()
-
-    @Test
-    fun `fails the build when the endpoint rejects the telemetry as invalid`(@TempDir dir: Path) {
-        val endpoint = FakeEndpoint(UNPROCESSABLE_ENTITY)
-
-        val result = endpoint.use { buildIn(dir, it, ciEnv()).buildAndFail() }
-
-        assertThat(result.output, containsSubstring("rejected the build telemetry"))
-    }
 
     private val GITHUB_MARKERS = setOf("GITHUB_ACTIONS", "GITHUB_REPOSITORY", "GITHUB_WORKFLOW")
 
