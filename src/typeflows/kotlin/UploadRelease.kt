@@ -26,7 +26,7 @@ class UploadRelease : Builder<Workflow> {
         on += RepositoryDispatch("release")
 
         jobs += Job("release", RunsOn.UBUNTU_LATEST) {
-            permissions = Permissions(Contents to Write, Packages to Write)
+            permissions = Permissions(Contents to Write)
 
             name = "Release"
             steps += Checkout(CHECKOUT) {
@@ -46,8 +46,6 @@ class UploadRelease : Builder<Workflow> {
                 env["ORG_GRADLE_PROJECT_mavenCentralPassword"] = $$"${{ secrets.MAVEN_CENTRAL_PASSWORD }}"
                 env["ORG_GRADLE_PROJECT_signingInMemoryKey"] = $$"${{ secrets.SIGNING_KEY }}"
                 env["ORG_GRADLE_PROJECT_signingInMemoryKeyPassword"] = $$"${{ secrets.SIGNING_PASSWORD }}"
-                env["GITHUB_ACTOR"] = $$"${{ github.actor }}"
-                env["GITHUB_TOKEN"] = Secrets.GITHUB_TOKEN
             }
 
             steps += RunScript("scripts/build-release-note.sh") {

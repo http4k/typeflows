@@ -32,19 +32,6 @@ configure<MavenPublishBaseExtension> {
 
         publishToMavenCentral(automaticRelease = true)
 
-        System.getenv("GITHUB_TOKEN")?.also { token ->
-            repositories {
-                maven {
-                    name = "GitHubPackages"
-                    url = uri("https://maven.pkg.github.com/http4k/typeflows")
-                    credentials {
-                        username = System.getenv("GITHUB_ACTOR")
-                        password = token
-                    }
-                }
-            }
-        }
-
         coordinates(
             "org.http4k.standards",
             project.name,
