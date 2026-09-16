@@ -41,8 +41,8 @@ class UploadRelease : Builder<Workflow> {
                 env["RELEASE_VERSION"] = $$"${{ github.event.client_payload.tag }}"
                 env["SIGNING_KEY"] = $$"${{ secrets.SIGNING_KEY }}"
                 env["SIGNING_PASSWORD"] = $$"${{ secrets.SIGNING_PASSWORD }}"
-                env["ORG_GRADLE_PROJECT_mavenCentralUsername"] = $$"${{ secrets.MAVEN_CENTRAL_USERNAME }}"
-                env["ORG_GRADLE_PROJECT_mavenCentralPassword"] = $$"${{ secrets.MAVEN_CENTRAL_PASSWORD }}"
+                env["ORG_GRADLE_PROJECT_mavenCentralUsername"] = $$"${{ secrets.COM_HTTP4K_MAVEN_USERNAME }}"
+                env["ORG_GRADLE_PROJECT_mavenCentralPassword"] = $$"${{ secrets.COM_HTTP4K_MAVEN_PASSWORD }}"
                 env["ORG_GRADLE_PROJECT_signingInMemoryKey"] = $$"${{ secrets.SIGNING_KEY }}"
                 env["ORG_GRADLE_PROJECT_signingInMemoryKeyPassword"] = $$"${{ secrets.SIGNING_PASSWORD }}"
             }
