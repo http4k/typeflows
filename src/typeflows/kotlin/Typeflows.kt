@@ -5,8 +5,8 @@ import io.typeflows.github.visualisation.WorkflowVisualisations
 import io.typeflows.github.workflow.Cron
 import io.typeflows.github.workflow.step.RunCommand
 import io.typeflows.util.Builder
-import com.http4k.typeflows.Http4kProjectStandards
-import com.http4k.typeflows.UpdateGradleProjectDependencies
+import org.http4k.typeflows.Http4kProjectStandards
+import org.http4k.typeflows.UpdateGradleProjectDependencies
 
 class Typeflows : Builder<TypeflowsRepo> {
     override fun build() = TypeflowsGitHubRepo {

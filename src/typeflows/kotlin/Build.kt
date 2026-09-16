@@ -19,9 +19,9 @@ import io.typeflows.github.workflow.trigger.PullRequest
 import io.typeflows.github.workflow.trigger.Push
 import io.typeflows.github.workflow.trigger.WorkflowDispatch
 import io.typeflows.util.Builder
-import com.http4k.typeflows.GithubActionConstants.CHECKOUT
-import com.http4k.typeflows.GithubActionConstants.SETUP_GRADLE
-import com.http4k.typeflows.GithubActionConstants.SETUP_JAVA
+import org.http4k.typeflows.GithubActionConstants.CHECKOUT
+import org.http4k.typeflows.GithubActionConstants.SETUP_GRADLE
+import org.http4k.typeflows.GithubActionConstants.SETUP_JAVA
 
 class Build : Builder<Workflow> {
     override fun build() = Workflow("build") {

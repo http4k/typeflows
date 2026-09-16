@@ -1,6 +1,5 @@
 import io.typeflows.github.workflow.Job
 import io.typeflows.github.workflow.Permission.Contents
-import io.typeflows.github.workflow.Permission.Packages
 import io.typeflows.github.workflow.PermissionLevel.Write
 import io.typeflows.github.workflow.Permissions
 import io.typeflows.github.workflow.RunsOn
@@ -15,10 +14,10 @@ import io.typeflows.github.workflow.step.marketplace.SetupGradle
 import io.typeflows.github.workflow.step.marketplace.SetupJava
 import io.typeflows.github.workflow.trigger.RepositoryDispatch
 import io.typeflows.util.Builder
-import com.http4k.typeflows.GithubActionConstants.CHECKOUT
-import com.http4k.typeflows.GithubActionConstants.CREATE_RELEASE
-import com.http4k.typeflows.GithubActionConstants.SETUP_GRADLE
-import com.http4k.typeflows.GithubActionConstants.SETUP_JAVA
+import org.http4k.typeflows.GithubActionConstants.CHECKOUT
+import org.http4k.typeflows.GithubActionConstants.CREATE_RELEASE
+import org.http4k.typeflows.GithubActionConstants.SETUP_GRADLE
+import org.http4k.typeflows.GithubActionConstants.SETUP_JAVA
 
 class UploadRelease : Builder<Workflow> {
     override fun build() = Workflow("upload-release") {

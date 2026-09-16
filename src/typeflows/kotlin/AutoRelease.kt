@@ -15,11 +15,11 @@ import io.typeflows.github.workflow.step.marketplace.SetupJava
 import io.typeflows.github.workflow.trigger.Schedule
 import io.typeflows.github.workflow.trigger.WorkflowDispatch
 import io.typeflows.util.Builder
-import com.http4k.typeflows.GithubActionConstants.CHECKOUT
-import com.http4k.typeflows.GithubActionConstants.JAVA_VERSION
-import com.http4k.typeflows.GithubActionConstants.JDK
-import com.http4k.typeflows.GithubActionConstants.SETUP_GRADLE
-import com.http4k.typeflows.GithubActionConstants.SETUP_JAVA
+import org.http4k.typeflows.GithubActionConstants.CHECKOUT
+import org.http4k.typeflows.GithubActionConstants.JAVA_VERSION
+import org.http4k.typeflows.GithubActionConstants.JDK
+import org.http4k.typeflows.GithubActionConstants.SETUP_GRADLE
+import org.http4k.typeflows.GithubActionConstants.SETUP_JAVA
 
 class AutoRelease : Builder<Workflow> {
     override fun build() = Workflow("auto-release") {
