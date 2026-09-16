@@ -1,4 +1,4 @@
-package org.http4k.typeflows
+package com.http4k.typeflows
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.containsSubstring
@@ -96,7 +96,7 @@ class BuildTelemetryPluginTest {
         dir.resolve("settings.gradle.kts").writeText("""rootProject.name = "example"""")
         dir.resolve("build.gradle.kts").writeText(
             """
-            plugins { id("org.http4k.build") }
+            plugins { id("com.http4k.build") }
             tasks.register("work") { doLast { println("working") } }
             """.trimIndent()
         )

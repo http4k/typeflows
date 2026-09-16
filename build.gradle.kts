@@ -65,7 +65,7 @@ configure<MavenPublishBaseExtension> {
 gradlePlugin {
     plugins {
         create("buildTelemetry") {
-            id = "org.http4k.build"
+            id = "com.http4k.build"
             implementationClass = "org.http4k.typeflows.BuildTelemetryPlugin"
         }
     }
