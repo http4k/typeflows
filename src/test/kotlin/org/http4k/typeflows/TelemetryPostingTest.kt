@@ -1,4 +1,4 @@
-package com.http4k.typeflows
+package org.http4k.typeflows
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.containsSubstring
@@ -10,6 +10,7 @@ import org.http4k.core.Response
 import org.http4k.core.Status.Companion.ACCEPTED
 import org.http4k.core.Status.Companion.INTERNAL_SERVER_ERROR
 import org.junit.jupiter.api.Test
+import java.net.ConnectException
 import java.time.Instant
 import java.util.zip.GZIPInputStream
 
@@ -41,7 +42,7 @@ class TelemetryPostingTest {
 
     @Test
     fun `ignores a failure to reach the endpoint`() {
-        val unreachable: HttpHandler = { throw java.net.ConnectException("no route to host") }
+        val unreachable: HttpHandler = { throw ConnectException("no route to host") }
 
         postTelemetry(unreachable, endpoint, aReport())
     }

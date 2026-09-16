@@ -1,4 +1,4 @@
-package com.http4k.typeflows
+package org.http4k.typeflows
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.containsSubstring
