@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.26.0.0
+- Repackage into a new org: com.http4k
+
 ### 1.25.1.0
 - Add read permission to the workflows
 

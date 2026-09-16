@@ -58,8 +58,7 @@ class UpdateGradleProjectDependencies(
         jobs += Job(workflowName, UBUNTU_LATEST) {
             permissions = Permissions(
                 Contents to Write,
-                PullRequests to Write,
-                Packages to Read
+                PullRequests to Write
             )
 
             env["GITHUB_TOKEN"] = Secrets.GITHUB_TOKEN

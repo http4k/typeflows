@@ -33,7 +33,7 @@ configure<MavenPublishBaseExtension> {
         publishToMavenCentral(automaticRelease = true)
 
         coordinates(
-            "org.http4k.standards",
+            "com.http4k",
             project.name,
             project.findProperty("releaseVersion")?.toString() ?: "LOCAL"
         )
