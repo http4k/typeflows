@@ -50,7 +50,7 @@ flowchart TD
     step6["Step 6: Check for changes<br/>💻 bash"]
     style step6 fill:#f3e5f5,stroke:#7b1fa2
     step5 --> step6
-    step7["Step 7: Create Pull Request<br/>🔐 if: steps.changes.outputs.has_changes"]
+    step7["Step 7: Create Pull Request<br/>🔐 if: steps.changes.outputs.has_changes == 'true'"]
     style step7 fill:#f8f9fa,stroke:#495057
     action7["🎬 peter-evans<br/>create-pull-request<br/><br/>📝 Inputs:<br/>• token: ${{ secrets.TOOLBOX_REPO_TOKEN...<br/>• commit-message: chore: Update dependencies<br/>• title: chore: update dependencies<br/>• body: This PR updates dependencies i...<br/>• branch: update-dependencies<br/>• delete-branch: true"]
     style action7 fill:#e1f5fe,stroke:#0277bd

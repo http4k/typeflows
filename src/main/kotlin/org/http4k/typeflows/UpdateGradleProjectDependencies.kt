@@ -96,7 +96,7 @@ class UpdateGradleProjectDependencies(
 
             steps += UseAction(CREATE_PULL_REQUEST) {
                 name = "Create Pull Request"
-                condition = StrExp.of("steps.changes.outputs.has_changes")
+                condition = StrExp.of("steps.changes.outputs.has_changes").isEqualTo("true")
 
                 with += mapOf(
                     "token" to token.toString(),
