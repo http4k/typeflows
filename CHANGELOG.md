@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.29.0.0
+- Upgrade underlying libraries (Gradle etc)
+
 ### 1.28.0.0
 - Fix `UpdateGradleProjectDependencies` PR gate
 
