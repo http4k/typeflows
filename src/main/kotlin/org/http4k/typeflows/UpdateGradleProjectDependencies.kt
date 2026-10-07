@@ -39,11 +39,13 @@ import org.http4k.typeflows.GithubActionConstants.SETUP_JAVA
  * @param cronExp The cron expression defining the schedule for the workflow.
  * @param prBranchName The name of the branch for the pull request. Defaults to the workflow name.
  * @param buildCommand The command to run that updates dependencies and verifies the build.
+ * @param baseBranch The branch the pull request targets.
  */
 class UpdateGradleProjectDependencies(
     private val workflowName: String,
     private val cronExp: Cron,
     private val buildCommand: Step,
+    private val baseBranch: String,
     private val prBranchName: String = workflowName,
 ) : Builder<Workflow> {
     override fun build() = Workflow(workflowName) {
@@ -110,7 +112,8 @@ class UpdateGradleProjectDependencies(
                         Please review the changes and merge if appropriate.
                     """.trimIndent(),
                     "branch" to prBranchName,
-                    "delete-branch" to "true"
+                    "delete-branch" to "true",
+                    "base" to baseBranch
                 )
             }
         }

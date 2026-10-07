@@ -18,7 +18,8 @@ class Typeflows : Builder<TypeflowsRepo> {
             workflows += UpdateGradleProjectDependencies(
                 "update-dependencies",
                 Cron.of("0 12 * * 5"),
-                RunCommand("./gradlew check")
+                RunCommand("./gradlew check"),
+                baseBranch = "main"
             )
 
             files += WorkflowVisualisations(workflows)
