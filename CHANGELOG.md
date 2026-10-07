@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.31.0.0
+- Upgrade underlying libraries (Gradle etc)
+
 ### 1.30.0.0
 - Repackage into org: org.http4k
 - `UpdateGradleProjectDependencies`: requireds`baseBranch` 
