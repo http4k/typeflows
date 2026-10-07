@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 - Upgrade underlying libraries (Gradle etc)
 
 ### 1.28.0.0
+- Repackage into org: org.http4k
+
+### 1.28.0.0
 - Fix `UpdateGradleProjectDependencies` PR gate
 
 ### 1.27.0.0

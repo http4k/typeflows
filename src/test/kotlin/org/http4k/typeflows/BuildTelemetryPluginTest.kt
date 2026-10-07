@@ -96,7 +96,7 @@ class BuildTelemetryPluginTest {
         dir.resolve("settings.gradle.kts").writeText("""rootProject.name = "example"""")
         dir.resolve("build.gradle.kts").writeText(
             """
-            plugins { id("com.http4k.build") }
+            plugins { id("org.http4k.build") }
             tasks.register("work") { doLast { println("working") } }
             """.trimIndent()
         )

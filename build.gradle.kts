@@ -33,7 +33,7 @@ configure<MavenPublishBaseExtension> {
         publishToMavenCentral(automaticRelease = true)
 
         coordinates(
-            "com.http4k",
+            "org.http4k",
             project.name,
             project.findProperty("releaseVersion")?.toString() ?: "LOCAL"
         )
@@ -65,7 +65,7 @@ configure<MavenPublishBaseExtension> {
 gradlePlugin {
     plugins {
         create("buildTelemetry") {
-            id = "com.http4k.build"
+            id = "org.http4k.build"
             implementationClass = "org.http4k.typeflows.BuildTelemetryPlugin"
         }
     }
