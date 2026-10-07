@@ -2,12 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-### 1.29.0.0
-- Upgrade underlying libraries (Gradle etc)
-
-### 1.28.0.0
+### 1.30.0.0
 - Repackage into org: org.http4k
-- `UpdateGradleProjectDependencies`: required `baseBranch` to set the target branch of the created PR
+- `UpdateGradleProjectDependencies`: requireds`baseBranch` 
+
+### 1.29.0.0
+- Upgrade gradle
 
 ### 1.28.0.0
 - Fix `UpdateGradleProjectDependencies` PR gate
