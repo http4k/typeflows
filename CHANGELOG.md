@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.32.0.0
+- Upgrade actions versions and allow for custom JDK version
+
 ### 1.31.0.0
 - Upgrade underlying libraries (Gradle etc)
 

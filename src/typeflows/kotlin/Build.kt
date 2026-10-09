@@ -10,8 +10,6 @@ import io.typeflows.github.workflow.step.RunCommand
 import io.typeflows.github.workflow.step.RunScript
 import io.typeflows.github.workflow.step.SendRepositoryDispatch
 import io.typeflows.github.workflow.step.marketplace.Checkout
-import io.typeflows.github.workflow.step.marketplace.JavaDistribution.Adopt
-import io.typeflows.github.workflow.step.marketplace.JavaVersion.V21
 import io.typeflows.github.workflow.step.marketplace.SetupGradle
 import io.typeflows.github.workflow.step.marketplace.SetupJava
 import io.typeflows.github.workflow.trigger.Paths
@@ -20,6 +18,8 @@ import io.typeflows.github.workflow.trigger.Push
 import io.typeflows.github.workflow.trigger.WorkflowDispatch
 import io.typeflows.util.Builder
 import org.http4k.typeflows.GithubActionConstants.CHECKOUT
+import org.http4k.typeflows.GithubActionConstants.JAVA_VERSION
+import org.http4k.typeflows.GithubActionConstants.JDK
 import org.http4k.typeflows.GithubActionConstants.SETUP_GRADLE
 import org.http4k.typeflows.GithubActionConstants.SETUP_JAVA
 
@@ -43,7 +43,7 @@ class Build : Builder<Workflow> {
 
             steps += Checkout(CHECKOUT)
 
-            steps += SetupJava(Adopt, V21, SETUP_JAVA)
+            steps += SetupJava(JDK, JAVA_VERSION, SETUP_JAVA)
 
             steps += SetupGradle(SETUP_GRADLE)
 

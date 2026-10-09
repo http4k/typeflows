@@ -8,14 +8,14 @@ import io.typeflows.github.workflow.Workflow
 import io.typeflows.github.workflow.step.RunScript
 import io.typeflows.github.workflow.step.UseAction
 import io.typeflows.github.workflow.step.marketplace.Checkout
-import io.typeflows.github.workflow.step.marketplace.JavaDistribution.Adopt
-import io.typeflows.github.workflow.step.marketplace.JavaVersion.V21
 import io.typeflows.github.workflow.step.marketplace.SetupGradle
 import io.typeflows.github.workflow.step.marketplace.SetupJava
 import io.typeflows.github.workflow.trigger.RepositoryDispatch
 import io.typeflows.util.Builder
 import org.http4k.typeflows.GithubActionConstants.CHECKOUT
 import org.http4k.typeflows.GithubActionConstants.CREATE_RELEASE
+import org.http4k.typeflows.GithubActionConstants.JAVA_VERSION
+import org.http4k.typeflows.GithubActionConstants.JDK
 import org.http4k.typeflows.GithubActionConstants.SETUP_GRADLE
 import org.http4k.typeflows.GithubActionConstants.SETUP_JAVA
 
@@ -32,7 +32,7 @@ class UploadRelease : Builder<Workflow> {
                 with["ref"] = $$"${{ github.event.client_payload.tag }}"
             }
 
-            steps += SetupJava(Adopt, V21, SETUP_JAVA)
+            steps += SetupJava(JDK, JAVA_VERSION, SETUP_JAVA)
 
             steps += SetupGradle(SETUP_GRADLE)
 
