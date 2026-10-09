@@ -3,7 +3,6 @@ package org.http4k.typeflows
 import io.typeflows.github.workflow.Cron
 import io.typeflows.github.workflow.Job
 import io.typeflows.github.workflow.Permission.Contents
-import io.typeflows.github.workflow.Permission.Packages
 import io.typeflows.github.workflow.Permission.PullRequests
 import io.typeflows.github.workflow.PermissionLevel.Read
 import io.typeflows.github.workflow.PermissionLevel.Write
@@ -16,6 +15,7 @@ import io.typeflows.github.workflow.step.RunCommand
 import io.typeflows.github.workflow.step.Step
 import io.typeflows.github.workflow.step.UseAction
 import io.typeflows.github.workflow.step.marketplace.Checkout
+import io.typeflows.github.workflow.step.marketplace.JavaVersion
 import io.typeflows.github.workflow.step.marketplace.SetupGradle
 import io.typeflows.github.workflow.step.marketplace.SetupJava
 import io.typeflows.github.workflow.trigger.Schedule
@@ -23,7 +23,6 @@ import io.typeflows.github.workflow.trigger.WorkflowDispatch
 import io.typeflows.util.Builder
 import org.http4k.typeflows.GithubActionConstants.CHECKOUT
 import org.http4k.typeflows.GithubActionConstants.CREATE_PULL_REQUEST
-import org.http4k.typeflows.GithubActionConstants.JAVA_VERSION
 import org.http4k.typeflows.GithubActionConstants.JDK
 import org.http4k.typeflows.GithubActionConstants.SETUP_GRADLE
 import org.http4k.typeflows.GithubActionConstants.SETUP_JAVA
@@ -47,6 +46,7 @@ class UpdateGradleProjectDependencies(
     private val buildCommand: Step,
     private val baseBranch: String,
     private val prBranchName: String = workflowName,
+    private val javaVersion: JavaVersion,
 ) : Builder<Workflow> {
     override fun build() = Workflow(workflowName) {
         displayName = "Update Dependencies"
@@ -72,7 +72,7 @@ class UpdateGradleProjectDependencies(
                 this.token = token.toString()
             }
 
-            steps += SetupJava(JDK, JAVA_VERSION, SETUP_JAVA) {
+            steps += SetupJava(JDK, javaVersion, SETUP_JAVA) {
                 name = "Set up JDK"
             }
 

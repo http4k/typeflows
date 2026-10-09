@@ -5,6 +5,7 @@ import io.typeflows.github.visualisation.WorkflowVisualisations
 import io.typeflows.github.workflow.Cron
 import io.typeflows.github.workflow.step.RunCommand
 import io.typeflows.util.Builder
+import org.http4k.typeflows.GithubActionConstants.JAVA_VERSION
 import org.http4k.typeflows.Http4kProjectStandards
 import org.http4k.typeflows.UpdateGradleProjectDependencies
 
@@ -19,7 +20,8 @@ class Typeflows : Builder<TypeflowsRepo> {
                 "update-dependencies",
                 Cron.of("0 12 * * 5"),
                 RunCommand("./gradlew check"),
-                baseBranch = "main"
+                baseBranch = "main",
+                javaVersion = JAVA_VERSION
             )
 
             files += WorkflowVisualisations(workflows)
