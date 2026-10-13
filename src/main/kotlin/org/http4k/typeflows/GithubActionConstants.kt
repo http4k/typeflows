@@ -1,5 +1,7 @@
 package org.http4k.typeflows
 
+import io.typeflows.github.workflow.Secrets
+import io.typeflows.github.workflow.Settings
 import io.typeflows.github.workflow.step.marketplace.JavaDistribution.Temurin
 import io.typeflows.github.workflow.step.marketplace.JavaVersion.V21
 import io.typeflows.github.workflow.step.marketplace.Version
@@ -14,4 +16,9 @@ object GithubActionConstants {
     val CHECKOUT = Version.sha("3d3c42e5aac5ba805825da76410c181273ba90b1") // actions/checkout v7.0.1
     val SETUP_JAVA = Version.sha("de7274f081f381c8f8158605e0321c36c376e2e6") // actions/setup-java v6.0.1
     val SETUP_GRADLE = Version.sha("3f5f9adaf7d9fecd50b5935e54106014257a94e6") // gradle/actions/setup-gradle v6.4.0
+
+    fun Settings.http4kMavenCredentials() {
+        set("HTTP4K_MAVEN_USER", Secrets.string("LTS_MAVEN_USER"))
+        set("HTTP4K_MAVEN_PASSWORD", Secrets.string("LTS_MAVEN_USER"))
+    }
 }

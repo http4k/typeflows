@@ -26,6 +26,7 @@ import org.http4k.typeflows.GithubActionConstants.CREATE_PULL_REQUEST
 import org.http4k.typeflows.GithubActionConstants.JDK
 import org.http4k.typeflows.GithubActionConstants.SETUP_GRADLE
 import org.http4k.typeflows.GithubActionConstants.SETUP_JAVA
+import org.http4k.typeflows.GithubActionConstants.http4kMavenCredentials
 
 /**
  * A reusable workflow to update dependencies in a repository.
@@ -80,6 +81,7 @@ class UpdateGradleProjectDependencies(
 
             steps += RunCommand("./gradlew versionCatalogUpdate typeflowsExport") {
                 name = "Build"
+                env.http4kMavenCredentials()
             }
             steps += buildCommand
 

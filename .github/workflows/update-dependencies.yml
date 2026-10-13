@@ -27,6 +27,9 @@ jobs:
       uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6
     - name: Build
       run: ./gradlew versionCatalogUpdate typeflowsExport
+      env:
+        HTTP4K_MAVEN_USER: ${{ secrets.LTS_MAVEN_USER }}
+        HTTP4K_MAVEN_PASSWORD: ${{ secrets.LTS_MAVEN_USER }}
       shell: bash
     - run: ./gradlew check
       shell: bash
