@@ -66,11 +66,12 @@ class UpdateGradleProjectDependencies(
 
             env["GITHUB_TOKEN"] = Secrets.GITHUB_TOKEN
 
-            val token = Secrets.string("TOOLBOX_REPO_TOKEN")
+            val repoToken = Secrets.string("TOOLBOX_REPO_TOKEN")
 
             steps += Checkout(CHECKOUT) {
                 name = "Checkout repository"
-                this.token = token.toString()
+                ref = baseBranch
+                token = repoToken.toString()
             }
 
             steps += SetupJava(JDK, javaVersion, SETUP_JAVA) {
@@ -103,7 +104,7 @@ class UpdateGradleProjectDependencies(
                 condition = StrExp.of("steps.changes.outputs.has_changes").isEqualTo("true")
 
                 with += mapOf(
-                    "token" to token.toString(),
+                    "token" to repoToken.toString(),
                     "commit-message" to "chore: Update dependencies",
                     "title" to "chore: update dependencies",
                     "body" to """

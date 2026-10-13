@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.34.0.0
+- Add default base branch for update dependency workflows
+
 ### 1.33.0.0
 - Add secrets for update dependency workflows
 
