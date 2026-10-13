@@ -81,7 +81,7 @@ class UpdateGradleProjectDependencies(
             steps += SetupGradle(SETUP_GRADLE)
 
             steps += RunCommand("./gradlew versionCatalogUpdate typeflowsExport") {
-                name = "Build"
+                name = "Update library versions"
                 env.http4kMavenCredentials()
             }
             steps += buildCommand
