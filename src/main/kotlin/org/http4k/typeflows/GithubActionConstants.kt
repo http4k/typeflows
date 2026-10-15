@@ -19,6 +19,6 @@ object GithubActionConstants {
 
     fun Settings.http4kMavenCredentials() {
         set("HTTP4K_MAVEN_USER", Secrets.string("LTS_MAVEN_USER"))
-        set("HTTP4K_MAVEN_PASSWORD", Secrets.string("LTS_MAVEN_USER"))
+        set("HTTP4K_MAVEN_PASSWORD", Secrets.string("LTS_MAVEN_PASSWORD"))
     }
 }
