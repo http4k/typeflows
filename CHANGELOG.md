@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.35.0.0
+- Fix maven password secret name for credentials
+
 ### 1.34.0.0
 - Add default base branch for update dependency workflows
 
