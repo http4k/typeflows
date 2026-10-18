@@ -22,7 +22,6 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6
     - name: Publish
-      run: ./gradlew publish --no-configuration-cache --info -Psign=true -PreleaseVersion="$RELEASE_VERSION" -PsigningKey="$SIGNING_KEY" -PsigningPassword="$SIGNING_PASSWORD"
       env:
         RELEASE_VERSION: ${{ github.event.client_payload.tag }}
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
@@ -33,13 +32,6 @@ jobs:
         ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
       shell: bash
     - name: Build release note
-      run: |-
-        {
-            echo "Changelog:"
-            TAG=$(echo "refs/tags/$RELEASE_VERSION" | sed "s/.*tags\///g")
-            # Find the line with ### version and get content until next ### or end
-            awk "/^### $TAG/{flag=1; next} /^### / && flag{flag=0} flag" CHANGELOG.md | sed '/^$/d'
-        } > NOTE.md
       env:
         RELEASE_VERSION: ${{ github.event.client_payload.tag }}
       shell: bash
