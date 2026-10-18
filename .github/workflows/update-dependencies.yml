@@ -1,0 +1,61 @@
+name: Update Dependencies
+on:
+  schedule:
+  - cron: 0 12 * * 5
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  update-dependencies:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: main
+        token: ${{ secrets.TOOLBOX_REPO_TOKEN }}
+    - name: Set up JDK
+      uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6
+      with:
+        java-version: '21'
+        distribution: temurin
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6
+    - name: Update library versions
+      run: ./gradlew versionCatalogUpdate typeflowsExport
+      env:
+        HTTP4K_MAVEN_USER: ${{ secrets.LTS_MAVEN_USER }}
+        HTTP4K_MAVEN_PASSWORD: ${{ secrets.LTS_MAVEN_PASSWORD }}
+      shell: bash
+    - run: ./gradlew check
+      shell: bash
+    - name: Check for changes
+      id: changes
+      run: |-
+        if git diff --quiet; then
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+        else
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+        fi
+      shell: bash
+    - name: Create Pull Request
+      if: steps.changes.outputs.has_changes == 'true'
+      uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1
+      with:
+        token: ${{ secrets.TOOLBOX_REPO_TOKEN }}
+        commit-message: 'chore: Update dependencies'
+        title: 'chore: update dependencies'
+        body: |-
+          This PR updates dependencies in the various projects in this repo.
+
+          Verified build passes with updated dependencies
+
+          Please review the changes and merge if appropriate.
+        branch: update-dependencies
+        delete-branch: 'true'
+        base: main

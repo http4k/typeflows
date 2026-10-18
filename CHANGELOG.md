@@ -1,0 +1,124 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+### 1.35.0.0
+- Fix maven password secret name for credentials
+
+### 1.34.0.0
+- Add default base branch for update dependency workflows
+
+### 1.33.0.0
+- Add secrets for update dependency workflows
+
+### 1.32.0.0
+- Upgrade actions versions and allow for custom JDK version
+
+### 1.31.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.30.0.0
+- Repackage into org: org.http4k
+- `UpdateGradleProjectDependencies`: requireds`baseBranch` 
+
+### 1.29.0.0
+- Upgrade gradle
+
+### 1.28.0.0
+- Fix `UpdateGradleProjectDependencies` PR gate
+
+### 1.27.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.26.1.0
+- Repackage into a new org: com.http4k
+
+### 1.26.0.0
+- Repackage into a new org: com.http4k
+
+### 1.25.1.0
+- Add read permission to the workflows
+
+### 1.25.0.0
+- Upgrade libraries and build telemetry
+
+### 1.24.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.23.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.22.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.21.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.20.0.0
+- Adjust workflow permissions for workflows
+
+### 1.19.0.0
+- Pin versions of github action constants (shas etc)
+
+### 1.18.0.0
+- Upgrade underlying libraries
+
+### 1.17.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.16.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.15.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.14.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.13.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.12.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.11.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.10.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.9.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.8.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.7.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.6.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.5.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.4.0.0
+- Upgrade underlying libraries (Gradle etc)
+
+### 1.3.0.0
+- Upgrade Typeflows
+
+### 1.2.0.0
+- Upgrade Typeflows and adjusted APIs
+
+### 1.1.1.0
+- Upgrade Typeflows and adjusted APIs
+
+### 1.1.0.0
+- Upgrade Typeflows and adjusted APIs
+
+### 1.0.1.0
+- Upgrade Typeflows and adjusted APIs
+
+### 1.0.0.0
+- Initial version of Typeflows infra
