@@ -4,7 +4,7 @@ hamkrest = "1.8.0.1"
 junit = "6.1.3"
 # @pin
 kotlin = "2.4.0"
-kotshi = "4.0.0"
+kotshi = "4.0.1"
 ksp = "2.3.12"
 typeflows = "0.34.0-beta"
 version-catalog-update = "1.1.1"
