@@ -3,13 +3,11 @@
 ```mermaid
 %%{init: {"flowchart": {"curve": "basis"}}}%%
 flowchart TD
-    schedule(["⏰ schedule<br/>0 12 * * *"])
     workflowdispatch(["👤 workflow_dispatch"])
     subgraph autoreleaseyml["Auto Release"]
         autoreleaseyml_metadata[["🔧 Workflow Config<br/>🔐 custom permissions"]]
         autoreleaseyml_autorelease["auto-release<br/>🐧 ubuntu-latest"]
     end
-    schedule --> autoreleaseyml_autorelease
     workflowdispatch --> autoreleaseyml_autorelease
 ```
 

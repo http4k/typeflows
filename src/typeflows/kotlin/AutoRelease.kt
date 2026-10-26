@@ -24,9 +24,9 @@ import org.http4k.typeflows.GithubActionConstants.SETUP_JAVA
 class AutoRelease : Builder<Workflow> {
     override fun build() = Workflow("auto-release") {
         displayName = "Auto Release"
-        on += Schedule {
-            cron += Cron.of("0 12 * * *")
-        }
+//        on += Schedule {
+//            cron += Cron.of("0 12 * * *")
+//        }
         on += WorkflowDispatch()
 
         permissions = Permissions(Contents to Read)
