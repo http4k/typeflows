@@ -105,6 +105,8 @@ class UpdateGradleProjectDependencies(
                 with += mapOf(
                     "token" to repoToken.toString(),
                     "commit-message" to "chore: Update dependencies",
+                    "author" to "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+                    "signoff" to "true",
                     "title" to "chore: update dependencies",
                     "body" to """
                         This PR updates dependencies in the various projects in this repo.
