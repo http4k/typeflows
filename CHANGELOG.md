@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.39.0.0
+- Fix upgrade workflow to sign commits
+
 ### 1.38.0.0
 - Upgrade underlying libraries (Gradle etc)
 
