@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.40.0.0
+- Fix POM details
+
 ### 1.39.0.0
 - Fix upgrade workflow to sign commits
 
