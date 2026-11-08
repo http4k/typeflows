@@ -51,7 +51,7 @@ class TelemetryPostingTest {
         clock = FakeClock(Instant.parse("2026-09-12T09:00:00Z")),
         startedAt = Instant.parse("2026-09-12T09:00:00Z"),
         build = BuildDetails("typeflows", "1.20.0.0", "9.6.1", "build"),
-        github = GithubDetails("http4k/typeflows", "build", "refs/heads/main", "abc123", "daviddenton"),
+        github = GithubDetails("http4k/typeflows", "build", "refs/heads/main", "abc123", "daviddenton", null, null),
         tasks = listOf(ExecutedTask(":work", "success", 10))
     )
 

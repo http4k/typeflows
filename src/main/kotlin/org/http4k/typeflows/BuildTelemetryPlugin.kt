@@ -68,7 +68,9 @@ data class GithubDetails(
     val workflow: String?,
     val ref: String?,
     val sha: String?,
-    val actor: String?
+    val actor: String?,
+    val serverUrl: String?,
+    val triggeringActor: String?,
 ) {
     companion object {
         fun detect(env: Map<String, String>) = GithubDetails(
@@ -76,7 +78,9 @@ data class GithubDetails(
             env["GITHUB_WORKFLOW"],
             env["GITHUB_REF"],
             env["GITHUB_SHA"],
-            env["GITHUB_ACTOR"]
+            env["GITHUB_ACTOR"],
+            env["GITHUB_SERVER_URL"],
+            env["GITHUB_TRIGGERING_ACTOR"]
         )
     }
 }

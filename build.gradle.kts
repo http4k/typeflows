@@ -52,11 +52,11 @@ configure<MavenPublishBaseExtension> {
                 asNode().appendNode("scm")
                     .appendNode("url", "https://github.com/http4k/typeflows").parent()
                     .appendNode("connection", "scm:git:git@github.com:http4k/typeflows.git").parent()
-                    .appendNode("developerConnection", "scm:git:git@github.com:http4k/standards.git")
+                    .appendNode("developerConnection", "scm:git:git@github.com:http4k/typeflows.git")
 
                 asNode().appendNode("licenses").appendNode("license")
                     .appendNode("name", "Apache-2.0").parent()
-                    .appendNode("url", "http://http4k.org/commercial-license")
+                    .appendNode("url", "https://www.apache.org/licenses/LICENSE-2.0")
             }
         }
     }
